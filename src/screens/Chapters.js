@@ -12,6 +12,7 @@ import {colors} from '../../assets';
 import {useSelector} from 'react-redux';
 import {FlatList} from 'react-native-gesture-handler';
 import {useEffect, useState} from 'react';
+import { CustomHeader } from '../navigation/Navigation';
 
 const {width, height} = Dimensions.get('window');
 
@@ -63,11 +64,17 @@ function Chapters({route, navigation}) {
           topics.push(topic?.topic_title)
         }
 
+        let Ids = [];
+        for (let id of chapter?.topics) {
+          Ids.push(id?.topic_id)
+        }
+
         return {
           id: index + 1,
           title: chapter.chapter_title,
           topicsCount: topicsCount,
-          topics: topics
+          topics: topics,
+          topicId: Ids
         };
       });
 
@@ -90,6 +97,8 @@ function Chapters({route, navigation}) {
   const {name} = route.params;
 
   return (
+    <>
+    <CustomHeader showBackButton={true} />
     <View style={styles.container}>
 
       <Text style={{color: 'black', fontWeight: 'bold', fontSize: 25}}>
@@ -126,7 +135,7 @@ function Chapters({route, navigation}) {
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => {
             return (
-              <TouchableOpacity onPress={() => {navigation.navigate("Topics", {id: item.id, title: item.title, topicCount: item.topicsCount, topics: item.topics})}}>
+              <TouchableOpacity onPress={() => {navigation.navigate("Topics", {id: item.id, title: item.title, topicCount: item.topicsCount, topics: item.topics, topicId: item.topicId})}}>
                 <View style={styles.listContainer}>
                   <View style={{width: width*0.13, alignItems: 'center', backgroundColor: colors.primary, borderRadius: 7}}>
                     <Text style={styles.id}>{item.id}</Text>
@@ -150,6 +159,7 @@ function Chapters({route, navigation}) {
         />
       </View>
     </View>
+    </>
   );
 }
 

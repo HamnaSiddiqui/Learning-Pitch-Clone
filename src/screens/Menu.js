@@ -2,6 +2,7 @@ import {StyleSheet, View, Text, TouchableOpacity, Image, Pressable} from 'react-
 import {useDispatch} from 'react-redux';
 import {logoutUser} from '../redux/actions/authActions';
 import {Data} from '../components/DashboardData';
+import { CustomHeader } from '../navigation/Navigation';
 
 function MenuScreen({navigation}) {
   const dispatch = useDispatch();
@@ -16,6 +17,8 @@ function MenuScreen({navigation}) {
   }
 
   return (
+    <>
+    <CustomHeader showBackButton={false} />
     <View>
       {Data.map(item => {
         return (
@@ -38,6 +41,7 @@ function MenuScreen({navigation}) {
         <Text style={styles.logout}>Logout</Text>
       </TouchableOpacity>
     </View>
+    </>
   );
 }
 

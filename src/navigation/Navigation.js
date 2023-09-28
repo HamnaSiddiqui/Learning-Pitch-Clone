@@ -1,4 +1,4 @@
-import {NavigationContainer, useRoute} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useSelector} from 'react-redux';
@@ -12,6 +12,7 @@ import ProgressScreen from '../screens/Progress';
 import NotificationsScreen from '../screens/Notifications';
 import Chapters from '../screens/Chapters';
 import Topics from '../screens/Topics';
+import TopicDetails from '../screens/TopicDetails';
 
 const Stack = createStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -20,7 +21,6 @@ const {height, width} = Dimensions.get('window');
 
 export function CustomHeader({ showBackButton}) {
   const navigation = useNavigation();
-  const route = useRoute()
 
   return (
     <View
@@ -36,7 +36,7 @@ export function CustomHeader({ showBackButton}) {
           <TouchableOpacity onPress={() => navigation.goBack()} style={{width: width*0.07, position: 'absolute', left: 30}}>
             <Image
               source={require('../../assets/icons/ic_back.png')}
-              style={{ width: width*0.07, height: height*0.035 }}
+              style={{ width: width*0.06, height: height*0.03 }}
             />
           </TouchableOpacity>
         )}
@@ -54,6 +54,7 @@ function NestedstacksScreens() {
       <Stack.Screen name='dashboardStack' component={Dashboard} options={{headerShown: false}}/>
       <Stack.Screen name='chapters' component={Chapters} options={{headerShown: false}}/>
       <Stack.Screen name='Topics' component={Topics}  options={{headerShown: false}}/>
+      <Stack.Screen name='TopicDetails' component={TopicDetails}  options={{headerShown: false, presentation: 'modal'}}/>
     </Stack.Navigator>
   )
 }

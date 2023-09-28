@@ -11,6 +11,7 @@ import {colors} from '../../assets';
 import {performApiRequest} from '../redux/actions/appActions';
 import {useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
+import { CustomHeader } from '../navigation/Navigation';
 
 const {width, height} = Dimensions.get('window');
 
@@ -35,6 +36,8 @@ const Dashboard = ({navigation}) => {
   }, []);
 
   return (
+    <>
+    <CustomHeader showBackButton={false} />
     <View>
       <Text style={{color: 'black'}}>.</Text>
       <View style={{flexDirection: 'row', marginHorizontal: 5}}>
@@ -60,6 +63,7 @@ const Dashboard = ({navigation}) => {
         />
       </View>
     </View>
+    </>
   );
 };
 

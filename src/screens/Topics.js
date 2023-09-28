@@ -5,7 +5,6 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  Pressable,
   FlatList,
 } from 'react-native';
 
@@ -16,15 +15,23 @@ import {CustomHeader} from '../navigation/Navigation';
 const {width, height} = Dimensions.get('window');
 
 function Topics({navigation, route}) {
-  const {id, title, topicCount, topics} = route.params;
+  const {id, title, topicCount, topics, topicId} = route.params;
   const [completedTopics, setCompletedTopics] = useState([]);
+
+  const topicsWithIds = topics.map((title, index) => {
+    return {
+      title: title,
+      topicId: topicId[index], 
+    };
+  });
+  
 
   return (
     <>
       <CustomHeader showBackButton={true} />
       <View style={{paddingHorizontal: 20, paddingTop: 10, flex: 1}}>
 
-        <TouchableOpacity onPress={() => console.log(topics)}>
+        <View>
           <View style={styles.listContainer}>
             <View
               style={{
@@ -41,31 +48,27 @@ function Topics({navigation, route}) {
               </Text>
               <Text style={styles.info}> {topicCount} Topics</Text>
             </View>
-            <View style={{marginLeft: width * 0.07}}>
-              <Image
-                source={require('../../assets/icons/ic_right_arrow.png')}
-                style={{width: width * 0.02, height: height * 0.017}}
-              />
-            </View>
           </View>
-        </TouchableOpacity>
+        </View>
 
         <View
           style={styles.topicsContainer}>
           {topics && topics.length ? (
             <FlatList
-              data={topics}
+              data={topicsWithIds}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{borderRadius: 10,
                 overflow: 'hidden'}}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
                 return (
-                  <Pressable
+                  <TouchableOpacity
                     style={{
                       backgroundColor:
                         index % 2 === 0 ? 'lightgray' : colors.light_grey,
-                    }}>
+                    }}
+                    onPress={() => navigation.navigate('TopicDetails', {name: item.title, id: item.topicId, topics: topics, currIndex: index})}
+                    >
                     <View style={styles.markCompleteContainer}>
                       {completedTopics.length == 0 ? (
                         <View
@@ -78,10 +81,10 @@ function Topics({navigation, route}) {
                       )}
 
                       <Text style={styles.topicName}>
-                        {item}
+                        {item.title}
                       </Text>
                     </View>
-                  </Pressable>
+                  </TouchableOpacity>
                 );
               }}
             />
@@ -160,6 +163,11 @@ const styles = StyleSheet.create({
   },
   topicName: {
     color: 'black', 
+    fontSize: 13,
+    paddingRight: width*0.1,
     marginLeft: width * 0.05
+}, 
+pressed: {
+  opacity: 0.75
 }
 });
